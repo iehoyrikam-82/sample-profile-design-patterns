@@ -3,245 +3,196 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>阿伊植雄 | 10パターンデザインプレビュー</title>
+  <title>政治家プロフィールサイト - デザイン10パターンプレビュー</title>
   <!-- Tailwind CSS (CDN) -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts -->
+  <!-- Alpine.js (インタラクティブ状態管理用) -->
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <!-- Google Fonts: Noto Sans JP -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700;900&display=swap" rel="stylesheet">
   <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     body { font-family: 'Noto Sans JP', sans-serif; }
   </style>
 </head>
-<body class="bg-slate-200 text-slate-800 min-h-screen flex flex-col items-center pb-12">
+<body class="bg-slate-900 text-slate-100 min-h-screen" x-data="{ currentTab: 1 }">
 
-  <!-- ==================== デザイン切り替え用コントロールパネル ==================== -->
-  <header class="w-full bg-slate-900 text-white p-4 sticky top-0 z-50 shadow-md">
-    <div class="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-      <div class="text-center sm:text-left">
-        <h1 class="text-sm font-bold tracking-wide">デザインパターン・スイッチャー</h1>
-        <p class="text-[11px] text-slate-400">クリックでテーマをリアルタイム切り替え</p>
+  <!-- ========================================== -->
+  <!-- 上部固定：デザインパターン切り替えナビバー -->
+  <!-- ========================================== -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-slate-950/90 backdrop-blur-md border-b border-slate-800 p-3">
+    <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+        <span class="text-xs font-bold tracking-wider text-slate-300">デザインパターン切替:</span>
       </div>
-      <!-- セレクトボックス（スマホ・PC共通で押しやすい） -->
-      <select id="theme-select" onchange="changeTheme(this.value)" class="bg-slate-800 text-emerald-400 border border-slate-700 text-xs font-bold rounded-lg p-2.5 outline-none focus:ring-2 focus:ring-emerald-500 w-full sm:w-auto cursor-pointer">
-        <option value="p1">1. 「アグリ×テック」ナチュラルモダン</option>
-        <option value="p2">2. 「アースカラー」オーガニック</option>
-        <option value="p3">3. カード型ダッシュボード</option>
-        <option value="p4">4. フォトストーリー＆タイムライン</option>
-        <option value="p5">5. ミニマル＆フラットUI</option>
-        <option value="p6">6. 地域密着ポップスタイル</option>
-        <option value="p7">7. ハイブリッド（ネイビー×グリーン）</option>
-        <option value="p8">8. モバイル対話ファースト</option>
-        <option value="p9">9. クリーン＆サステナブル</option>
-        <option value="p10">10. ストーリーテリング</option>
-      </select>
+      
+      <!-- 切り替えボタン群（横スクロール対応） -->
+      <div class="flex items-center gap-1.5 overflow-x-auto w-full md:w-auto pb-1 md:pb-0 scrollbar-thin">
+        <button @click="currentTab = 1" :class="currentTab === 1 ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">1. アグリ×テック</button>
+        <button @click="currentTab = 2" :class="currentTab === 2 ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">2. オーガニック</button>
+        <button @click="currentTab = 3" :class="currentTab === 3 ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">3. ダッシュボード</button>
+        <button @click="currentTab = 4" :class="currentTab === 4 ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">4. フォトストーリー</button>
+        <button @click="currentTab = 5" :class="currentTab === 5 ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">5. ミニマルUI</button>
+        <button @click="currentTab = 6" :class="currentTab === 6 ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">6. 親しみイラスト</button>
+        <button @click="currentTab = 7" :class="currentTab === 7 ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">7. ハイブリッド</button>
+        <button @click="currentTab = 8" :class="currentTab === 8 ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">8. モバイルUI</button>
+        <button @click="currentTab = 9" :class="currentTab === 9 ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">9. クリーン</button>
+        <button @click="currentTab = 10" :class="currentTab === 10 ? 'bg-emerald-600 text-white font-bold' : 'bg-slate-800 text-slate-400 hover:text-white'" class="px-3 py-1.5 rounded-lg text-xs transition whitespace-nowrap">10. ストーリー</button>
+      </div>
     </div>
   </header>
 
-  <!-- ==================== メイン表示領域（プレビュー枠） ==================== -->
-  <main class="w-full max-w-md px-4 mt-8 flex-1">
-    
-    <!-- カードコンテナ（JSで内部のクラスを差し替えます） -->
-    <div id="preview-card" class="transition-all duration-300">
-      
-      <!-- アイコン・ヘッダー部分 -->
-      <div class="text-center mb-6">
-        <div id="avatar-container" class="transition-all duration-300">
-          <i id="avatar-icon" class="fa-solid fa-user"></i>
+  <!-- ========================================== -->
+  <!-- プレビューエリア（ヘッダー分の余白を固定） -->
+  <!-- ========================================== -->
+  <main class="pt-24 pb-12 px-4 min-h-screen flex justify-center items-center">
+
+    <!-- Pattern 1: アグリ×テック -->
+    <div x-show="currentTab === 1" x-transition class="w-full max-w-md bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-500 to-teal-400"></div>
+      <div class="text-center my-4">
+        <div class="w-24 h-24 rounded-2xl bg-emerald-500/10 border-2 border-emerald-500 mx-auto flex items-center justify-center text-emerald-400 text-3xl font-bold mb-3 shadow-lg shadow-emerald-500/10">
+          <i class="fa-solid fa-microchip"></i>
         </div>
-        <h2 id="user-name" class="transition-all duration-300">阿伊 植雄</h2>
-        <p id="user-catch" class="transition-all duration-300">「現場の土」と「最先端のIT」で地域の未来をひらく。</p>
-        <p id="user-sub" class="text-xs mt-2 leading-relaxed">元ITエンジニア / 現役新規就農者。<br>アグリテックの普及と行政DXを推進中。</p>
+        <h1 class="text-xl font-bold text-white">阿伊 植雄</h1>
+        <p class="text-xs text-emerald-400 font-mono mt-1">Agri-Tech Pioneer & Politician</p>
       </div>
-
-      <!-- SNSリンク集 -->
-      <div id="link-container" class="space-y-3 mb-6">
-        <a href="#" id="link-x" class="link-item">
-          <i class="fa-brands fa-x-twitter text-lg"></i>
-          <span class="text-xs font-bold flex-1">X (旧Twitter)</span>
-          <i class="fa-solid fa-chevron-right text-xs opacity-50"></i>
-        </a>
-        <a href="#" id="link-line" class="link-item">
-          <i class="fa-brands fa-line text-lg"></i>
-          <span class="text-xs font-bold flex-1">公式LINEで相談</span>
-          <i class="fa-solid fa-chevron-right text-xs opacity-50"></i>
-        </a>
-        <a href="#" id="link-insta" class="link-item">
-          <i class="fa-brands fa-instagram text-lg"></i>
-          <span class="text-xs font-bold flex-1">Instagram（活動写真）</span>
-          <i class="fa-solid fa-chevron-right text-xs opacity-50"></i>
-        </a>
+      <div class="space-y-3">
+        <a href="#" class="flex items-center p-3 rounded-xl bg-slate-700/50 border border-slate-600 hover:border-emerald-500 transition"><i class="fa-brands fa-x-twitter text-lg w-8 text-emerald-400"></i><span class="text-sm">X (旧Twitter)</span></a>
+        <a href="#" class="flex items-center p-3 rounded-xl bg-slate-700/50 border border-slate-600 hover:border-emerald-500 transition"><i class="fa-brands fa-line text-lg w-8 text-emerald-400"></i><span class="text-sm">公式LINEアカウント</span></a>
+        <a href="#" class="flex items-center p-3 rounded-xl bg-slate-700/50 border border-slate-600 hover:border-emerald-500 transition"><i class="fa-solid fa-envelope text-lg w-8 text-emerald-400"></i><span class="text-sm">お問い合わせ</span></a>
       </div>
-
-      <!-- 政策・メッセージ枠 -->
-      <div id="policy-box" class="p-4 rounded-xl text-xs space-y-2">
-        <div id="policy-title" class="font-bold border-b pb-1 mb-2">重点政策</div>
-        <p>1. スマート農業導入による労働負担軽減</p>
-        <p>2. 行政手続きのフルDX（スマホ完結）</p>
-      </div>
-
-      <!-- フッター -->
-      <div id="card-footer" class="text-center text-[10px] mt-6 opacity-60">
-        © 2026 阿伊植雄 後援会
-      </div>
-
     </div>
+
+    <!-- Pattern 2: オーガニック -->
+    <div x-show="currentTab === 2" x-transition class="w-full max-w-md bg-[#f0eae1] text-[#4a403a] border border-[#d8cebe] rounded-3xl p-6 text-center shadow-lg">
+      <div class="w-24 h-24 rounded-full bg-[#8a704c] text-white mx-auto flex items-center justify-center text-3xl mb-4 shadow-sm">
+        <i class="fa-solid fa-wheat-awn"></i>
+      </div>
+      <h1 class="text-xl font-bold text-[#362f2d]">阿伊 植雄</h1>
+      <p class="text-xs text-[#8a704c] mt-1 font-semibold">土とともに生き、未来をひらく</p>
+      <div class="mt-6 space-y-3">
+        <a href="#" class="block p-3.5 rounded-2xl bg-white shadow-sm border border-[#e2d9cc] text-sm font-medium hover:bg-[#8a704c] hover:text-white transition">公式LINEでつながる</a>
+        <a href="#" class="block p-3.5 rounded-2xl bg-white shadow-sm border border-[#e2d9cc] text-sm font-medium hover:bg-[#8a704c] hover:text-white transition">Instagram（活動写真）</a>
+      </div>
+    </div>
+
+    <!-- Pattern 3: カード型ダッシュボード -->
+    <div x-show="currentTab === 3" x-transition class="w-full max-w-md grid grid-cols-2 gap-3 text-gray-800">
+      <div class="col-span-2 bg-white p-5 rounded-2xl shadow-md border border-gray-200 text-center">
+        <h1 class="font-bold text-lg text-gray-900">阿伊 植雄</h1>
+        <p class="text-xs text-gray-500">政策ダッシュボード & 連絡先</p>
+      </div>
+      <a href="#" class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 transition text-center">
+        <i class="fa-brands fa-x-twitter text-2xl text-blue-500 mb-1"></i>
+        <div class="text-xs font-bold">X (Twitter)</div>
+      </a>
+      <a href="#" class="bg-white p-4 rounded-xl shadow-sm border border-gray-200 hover:border-green-500 transition text-center">
+        <i class="fa-brands fa-line text-2xl text-green-500 mb-1"></i>
+        <div class="text-xs font-bold">LINE公式</div>
+      </a>
+      <a href="#" class="col-span-2 bg-white p-4 rounded-xl shadow-sm border border-gray-200 hover:border-emerald-500 transition text-center">
+        <i class="fa-solid fa-file-lines text-xl text-emerald-600 mb-1"></i>
+        <div class="text-xs font-bold">政策資料ダウンロード (PDF)</div>
+      </a>
+    </div>
+
+    <!-- Pattern 4: フォトストーリー -->
+    <div x-show="currentTab === 4" x-transition class="w-full max-w-md bg-white text-slate-800 rounded-3xl shadow-xl overflow-hidden border border-slate-100">
+      <div class="h-44 bg-emerald-800 flex items-center justify-center text-emerald-100 text-xs font-bold tracking-wider">
+        [ 現場視察・作業風景の写真を配置 ]
+      </div>
+      <div class="p-6 text-center">
+        <h1 class="text-xl font-bold">阿伊 植雄</h1>
+        <p class="text-xs text-slate-500 mt-1">現場の声から政策をつくる</p>
+        <div class="mt-6 space-y-2 text-left">
+          <a href="#" class="block p-3 bg-slate-50 rounded-xl text-xs font-bold text-slate-700 hover:bg-emerald-50 transition">現場訪問レポート（note） →</a>
+          <a href="#" class="block p-3 bg-slate-50 rounded-xl text-xs font-bold text-slate-700 hover:bg-emerald-50 transition">SNSでリアルタイム発信中 →</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pattern 5: ミニマル＆フラット -->
+    <div x-show="currentTab === 5" x-transition class="w-full max-w-xs bg-white text-black p-8 rounded-2xl shadow-xl space-y-6">
+      <div>
+        <h1 class="text-2xl font-black tracking-tight">YAMADA TARO</h1>
+        <p class="text-[10px] text-gray-400 tracking-widest mt-1">POLITICS × TECHNOLOGY</p>
+      </div>
+      <div class="space-y-2 font-mono text-xs">
+        <a href="#" class="block py-3 border-b border-black hover:pl-2 transition-all">01. X_TWITTER</a>
+        <a href="#" class="block py-3 border-b border-black hover:pl-2 transition-all">02. OFFICIAL_LINE</a>
+        <a href="#" class="block py-3 border-b border-black hover:pl-2 transition-all">03. CONTACT_FORM</a>
+      </div>
+    </div>
+
+    <!-- Pattern 6: 親しみイラスト -->
+    <div x-show="currentTab === 6" x-transition class="w-full max-w-md bg-white text-stone-700 rounded-3xl p-6 text-center shadow-xl border-2 border-amber-200">
+      <div class="w-20 h-20 bg-amber-100 rounded-full mx-auto flex items-center justify-center text-amber-600 text-3xl mb-3 shadow-inner">
+        <i class="fa-solid fa-face-smile"></i>
+      </div>
+      <h1 class="text-xl font-bold text-amber-950">阿伊植雄</h1>
+      <p class="text-xs text-amber-700 font-bold mt-1">みんなの声をカタチにする政治</p>
+      <div class="mt-6 space-y-3">
+        <a href="#" class="block p-3.5 bg-amber-400 text-amber-950 rounded-full font-bold text-sm hover:bg-amber-300 transition shadow-sm">LINEでお気軽にご意見をどうぞ</a>
+        <a href="#" class="block p-3.5 bg-stone-100 text-stone-800 rounded-full font-bold text-sm hover:bg-stone-200 transition">Twitter（X）を見る</a>
+      </div>
+    </div>
+
+    <!-- Pattern 7: ハイブリッド -->
+    <div x-show="currentTab === 7" x-transition class="w-full max-w-md bg-white text-slate-800 rounded-2xl shadow-xl border-t-4 border-emerald-600 overflow-hidden">
+      <div class="bg-slate-900 p-6 text-white text-center">
+        <h1 class="text-xl font-bold">阿伊 植雄</h1>
+        <p class="text-xs text-emerald-400 mt-1">知性と現場力のハイブリッド政治</p>
+      </div>
+      <div class="p-6 space-y-3">
+        <a href="#" class="flex items-center justify-between p-3.5 bg-slate-50 rounded-xl border border-slate-200 hover:border-emerald-600 transition">
+          <span class="text-xs font-bold text-slate-800">公式SNS・リンク一覧</span>
+          <i class="fa-solid fa-arrow-right text-xs text-emerald-600"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Pattern 8: モバイルUI -->
+    <div x-show="currentTab === 8" x-transition class="w-full max-w-md bg-gray-50 text-gray-800 p-6 rounded-3xl shadow-xl text-center space-y-4 border border-gray-200">
+      <h1 class="text-xl font-bold">阿伊 植雄</h1>
+      <p class="text-xs text-gray-500">ご意見・メッセージ受付中</p>
+      <div class="space-y-2">
+        <a href="#" class="block p-4 bg-emerald-600 text-white font-bold rounded-2xl shadow-lg hover:bg-emerald-700 transition">LINEで直接相談する</a>
+        <a href="#" class="block p-4 bg-white border border-gray-200 font-bold rounded-2xl hover:bg-gray-100 transition">X (旧Twitter) を見る</a>
+      </div>
+    </div>
+
+    <!-- Pattern 9: クリーン -->
+    <div x-show="currentTab === 9" x-transition class="w-full max-w-sm bg-white p-8 rounded-3xl border border-emerald-100 shadow-2xl text-center text-emerald-950">
+      <h1 class="text-2xl font-light tracking-wide text-emerald-900">阿伊 植雄</h1>
+      <p class="text-xs text-emerald-600 mt-2 font-medium">クリーンで持続可能なまちづくり</p>
+      <div class="mt-8 space-y-3">
+        <a href="#" class="block py-3 px-4 rounded-full bg-emerald-600 text-white text-xs font-semibold hover:bg-emerald-700 transition">オフィシャルLINE</a>
+        <a href="#" class="block py-3 px-4 rounded-full bg-emerald-50 text-emerald-800 text-xs font-semibold hover:bg-emerald-100 transition">X (旧Twitter)</a>
+      </div>
+    </div>
+
+    <!-- Pattern 10: ストーリー -->
+    <div x-show="currentTab === 10" x-transition class="w-full max-w-md bg-slate-800 border border-slate-700 rounded-3xl p-6 text-slate-100 shadow-2xl space-y-6">
+      <section class="text-center space-y-2">
+        <span class="text-[10px] font-mono uppercase bg-emerald-500/20 text-emerald-400 px-2.5 py-1 rounded-full">About Me</span>
+        <h1 class="text-2xl font-bold pt-2">阿伊 植雄</h1>
+        <p class="text-xs text-slate-400">現場の課題をIT技術で解決する政治家</p>
+      </section>
+      <section class="bg-slate-900/60 p-4 rounded-2xl border border-slate-700 space-y-1">
+        <h2 class="text-xs font-bold text-emerald-400">VISION</h2>
+        <p class="text-xs leading-relaxed text-slate-300">農業のスマート化と行政手続きの効率化を進め、誰もが働きやすい地域社会をつくります。</p>
+      </section>
+      <section class="space-y-2">
+        <a href="#" class="block text-center p-3.5 bg-emerald-500 text-slate-950 rounded-xl font-bold text-xs hover:bg-emerald-400 transition">SNS・連絡先一覧へ</a>
+      </section>
+    </div>
+
   </main>
 
-  <!-- ==================== テーマ切替JavaScript ==================== -->
-  <script>
-    const themes = {
-      // 1. アグリ×テック
-      p1: {
-        bg: "bg-slate-900 text-slate-100 min-h-screen",
-        card: "bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl relative overflow-hidden",
-        avatar: "w-20 h-20 rounded-2xl bg-emerald-500/10 border-2 border-emerald-500 mx-auto flex items-center justify-center text-emerald-400 text-2xl mb-3",
-        avatarIcon: "fa-solid fa-microchip",
-        name: "text-xl font-bold text-white",
-        catch: "text-xs text-emerald-400 font-mono mt-1",
-        linkItem: "flex items-center gap-3 p-3.5 rounded-xl bg-slate-700/50 border border-slate-600 hover:border-emerald-500 transition text-emerald-400",
-        policy: "bg-slate-900/50 border border-slate-700 text-slate-300",
-        policyTitle: "font-bold border-b border-slate-700 pb-1 mb-2 text-emerald-400"
-      },
-      // 2. オーガニック
-      p2: {
-        bg: "bg-[#f7f4ef] text-[#4a403a]",
-        card: "bg-[#f0eae1] border border-[#d8cebe] rounded-3xl p-6 shadow-sm",
-        avatar: "w-20 h-20 rounded-full bg-[#8a704c] text-white mx-auto flex items-center justify-center text-2xl mb-3",
-        avatarIcon: "fa-solid fa-wheat-awn",
-        name: "text-xl font-bold text-[#362f2d]",
-        catch: "text-xs text-[#8a704c] font-semibold mt-1",
-        linkItem: "flex items-center gap-3 p-3.5 rounded-2xl bg-white shadow-sm border border-[#e2d9cc] text-[#4a403a] hover:bg-[#8a704c] hover:text-white transition",
-        policy: "bg-white/60 border border-[#e2d9cc] text-[#5c5049]",
-        policyTitle: "font-bold border-b border-[#e2d9cc] pb-1 mb-2 text-[#8a704c]"
-      },
-      // 3. ダッシュボード
-      p3: {
-        bg: "bg-gray-100 text-gray-800",
-        card: "bg-white border border-gray-200 rounded-xl p-6 shadow-md",
-        avatar: "w-16 h-16 rounded-lg bg-blue-50 text-blue-600 mx-auto flex items-center justify-center text-2xl mb-3 border border-blue-200",
-        avatarIcon: "fa-solid fa-chart-line",
-        name: "text-lg font-black text-gray-900",
-        catch: "text-xs text-blue-600 font-bold mt-1",
-        linkItem: "flex items-center gap-3 p-3 bg-gray-50 border border-gray-200 rounded-lg hover:border-blue-500 text-gray-700 transition",
-        policy: "bg-gray-50 border border-gray-200 text-gray-600",
-        policyTitle: "font-bold border-b border-gray-200 pb-1 mb-2 text-gray-800"
-      },
-      // 4. フォトストーリー
-      p4: {
-        bg: "bg-slate-50 text-slate-800",
-        card: "bg-white border border-slate-200 rounded-3xl p-6 shadow-lg",
-        avatar: "w-20 h-20 rounded-full bg-emerald-800 text-emerald-100 mx-auto flex items-center justify-center text-2xl mb-3 shadow-md",
-        avatarIcon: "fa-solid fa-camera",
-        name: "text-xl font-bold text-slate-900",
-        catch: "text-xs text-emerald-700 mt-1 font-semibold",
-        linkItem: "flex items-center gap-3 p-3.5 rounded-xl bg-slate-50 border border-slate-200 hover:bg-emerald-50 text-slate-700 transition",
-        policy: "bg-emerald-50/50 border border-emerald-100 text-slate-700",
-        policyTitle: "font-bold border-b border-emerald-200 pb-1 mb-2 text-emerald-800"
-      },
-      // 5. ミニマル＆フラット
-      p5: {
-        bg: "bg-white text-black",
-        card: "bg-white border-2 border-black rounded-none p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]",
-        avatar: "w-16 h-16 bg-black text-white mx-auto flex items-center justify-center text-2xl mb-3 rounded-none",
-        avatarIcon: "fa-solid fa-terminal",
-        name: "text-2xl font-black uppercase tracking-tight",
-        catch: "text-xs text-gray-500 font-mono mt-1",
-        linkItem: "flex items-center gap-3 p-3 border-b-2 border-black hover:bg-black hover:text-white transition font-mono",
-        policy: "border-2 border-black p-3 font-mono text-xs",
-        policyTitle: "font-bold border-b-2 border-black pb-1 mb-2 uppercase"
-      },
-      // 6. 地域密着ポップ
-      p6: {
-        bg: "bg-amber-50/50 text-stone-700",
-        card: "bg-white rounded-3xl p-6 shadow-xl shadow-amber-900/5 border-2 border-amber-200",
-        avatar: "w-20 h-20 bg-amber-100 rounded-full mx-auto flex items-center justify-center text-amber-600 text-3xl mb-3",
-        avatarIcon: "fa-solid fa-face-smile",
-        name: "text-xl font-bold text-amber-950",
-        catch: "text-xs text-amber-700 font-bold mt-1",
-        linkItem: "flex items-center gap-3 p-3.5 bg-amber-100/60 text-amber-950 rounded-full font-bold hover:bg-amber-300 transition",
-        policy: "bg-amber-50 rounded-2xl border border-amber-200 text-amber-900",
-        policyTitle: "font-bold border-b border-amber-200 pb-1 mb-2 text-amber-800"
-      },
-      // 7. ハイブリッド（ネイビー×グリーン）
-      p7: {
-        bg: "bg-slate-100 text-slate-800",
-        card: "bg-white rounded-2xl shadow-md border-t-4 border-emerald-600 p-6",
-        avatar: "w-20 h-20 rounded-full bg-slate-900 text-emerald-400 mx-auto flex items-center justify-center text-2xl mb-3",
-        avatarIcon: "fa-solid fa-building-columns",
-        name: "text-xl font-bold text-slate-900",
-        catch: "text-xs text-emerald-600 font-bold mt-1",
-        linkItem: "flex items-center gap-3 p-3.5 bg-slate-50 rounded-xl border border-slate-200 hover:border-emerald-600 transition text-slate-800",
-        policy: "bg-slate-50 border border-slate-200 text-slate-700",
-        policyTitle: "font-bold border-b border-slate-200 pb-1 mb-2 text-slate-900"
-      },
-      // 8. モバイル対話
-      p8: {
-        bg: "bg-gray-50 text-gray-800",
-        card: "bg-white rounded-3xl p-6 shadow-xl border border-gray-100",
-        avatar: "w-20 h-20 rounded-full bg-emerald-600 text-white mx-auto flex items-center justify-center text-2xl mb-3 shadow-lg shadow-emerald-600/30",
-        avatarIcon: "fa-solid fa-comments",
-        name: "text-xl font-bold text-gray-900",
-        catch: "text-xs text-emerald-600 font-bold mt-1",
-        linkItem: "flex items-center gap-3 p-4 bg-emerald-600 text-white font-bold rounded-2xl shadow-md hover:bg-emerald-700 transition",
-        policy: "bg-gray-50 border border-gray-200 text-gray-600 rounded-2xl",
-        policyTitle: "font-bold border-b border-gray-200 pb-1 mb-2 text-gray-900"
-      },
-      // 9. クリーン＆サステナブル
-      p9: {
-        bg: "bg-emerald-50/30 text-emerald-950",
-        card: "bg-white/80 backdrop-blur-md p-8 rounded-3xl border border-emerald-100 shadow-xl text-center",
-        avatar: "w-20 h-20 rounded-full bg-emerald-100 text-emerald-700 mx-auto flex items-center justify-center text-2xl mb-3",
-        avatarIcon: "fa-solid fa-leaf",
-        name: "text-2xl font-light text-emerald-950",
-        catch: "text-xs text-emerald-600 mt-1 font-medium",
-        linkItem: "flex items-center gap-3 p-3.5 rounded-full bg-emerald-50 text-emerald-800 hover:bg-emerald-100 transition font-medium",
-        policy: "bg-emerald-50/50 border border-emerald-100 text-emerald-900 rounded-2xl",
-        policyTitle: "font-bold border-b border-emerald-200 pb-1 mb-2 text-emerald-800"
-      },
-      // 10. ストーリーテリング
-      p10: {
-        bg: "bg-slate-900 text-slate-100",
-        card: "bg-slate-800 border border-slate-700 rounded-2xl p-6 shadow-2xl",
-        avatar: "w-20 h-20 rounded-full bg-slate-700 border border-emerald-400 text-emerald-400 mx-auto flex items-center justify-center text-2xl mb-3",
-        avatarIcon: "fa-solid fa-book-open",
-        name: "text-xl font-bold text-white",
-        catch: "text-xs text-slate-400 mt-1",
-        linkItem: "flex items-center gap-3 p-3.5 bg-emerald-500 text-slate-950 rounded-xl font-bold hover:bg-emerald-400 transition",
-        policy: "bg-slate-900 border border-slate-700 text-slate-300 rounded-xl",
-        policyTitle: "font-bold border-b border-slate-700 pb-1 mb-2 text-emerald-400"
-      }
-    };
-
-    function changeTheme(themeKey) {
-      const t = themes[themeKey];
-      
-      // 全体背景とカードコンテナ
-      document.body.className = t.bg + " min-h-screen flex flex-col items-center pb-12";
-      document.getElementById('preview-card').className = t.card;
-
-      // アイコン＆テキスト
-      document.getElementById('avatar-container').className = t.avatar;
-      document.getElementById('avatar-icon').className = t.avatarIcon;
-      document.getElementById('user-name').className = t.name;
-      document.getElementById('user-catch').className = t.catch;
-
-      // 各リンクボタン
-      const links = document.querySelectorAll('.link-item');
-      links.forEach(link => {
-        link.className = t.linkItem + " link-item";
-      });
-
-      // 政策ボックス
-      document.getElementById('policy-box').className = t.policy + " p-4 rounded-xl text-xs space-y-2";
-      document.getElementById('policy-title').className = t.policyTitle;
-    }
-
-    // 初期読み込み (パターン1)
-    changeTheme('p1');
-  </script>
 </body>
 </html>
